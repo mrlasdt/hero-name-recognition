@@ -18,18 +18,28 @@ def get_args():
     # parser image
     parser.add_argument("--image_dir", type=str, required=True, help="path to input image/directory")
     parser.add_argument("--label_file", type=str, required=True, help="path to label file")
+    parser.add_argument("--out_file", type=str, required=False, help="path to label file", default="out.txt")
     opt = parser.parse_args()
     return opt
 
-def get_test_labels(test_label_file):
+def get_test_labels(test_label_file:str) -> list[str]:
     test_data = [test_line.split("\t") for test_line in readlines(test_label_file)] #test_img, label
     test_labels = [t[1] for t in test_data]
     return list(set(test_labels))
 
-def main():
+def write_to_file(fp:str, preds:list, gts:list) -> None:
+    print("[INFO]: Saving to", fp)
+    f = open(fp, "w")
+    for pred, gt in zip (preds, gts):
+        f.write(f"{pred}\t{gt}\n")
+    f.close()
+
+def main()->None:
     opt = get_args()
     test_labels = get_test_labels(opt.label_file)
     preds, gts = Predictor.eval(opt.image_dir, opt.label_file, wrong_label_paths=WRONG_LABEL_FILES)
     Predictor.report(gts, preds, labels_=test_labels)
+    write_to_file(opt.out_file, preds, gts)
+
 if __name__ == "__main__":
     main()
