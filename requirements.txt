@@ -1,0 +1,7 @@
+wget
+gdown
+opencv-contrib-python
+lxml
+pandas
+matplotlib
+scikit-learn
