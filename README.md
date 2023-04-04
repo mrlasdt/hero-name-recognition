@@ -15,10 +15,10 @@ bash script/prepare_template.sh
 ## Usage
 Evaluation on test dataset:
 ```
-bash script/predict.sh -i data/test_data/test_images -a data/test_data/test.txt
+bash script/predict.sh -i data/test_data/test_images -a data/test_data/test.txt -o out.txt
 ```
 
 Evaluation on private dataset:
 ```
-bash script/predict.sh -i <path to images folder>  -a <path to label file>
+bash script/predict.sh -i <path to images folder>  -a <path to label file> -o <output file>
 ```
